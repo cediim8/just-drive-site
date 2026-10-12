@@ -62,10 +62,18 @@
         padding: 20px 0;
       }
       .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         font: 800 22px/1 var(--display);
         letter-spacing: -0.02em;
         color: var(--text);
         text-decoration: none;
+      }
+      .wordmark img {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
       }
       .button {
         display: inline-block;
@@ -336,7 +344,7 @@
   <body>
     <div class="wrap">
       <header class="top">
-        <a class="wordmark" href="#">Just Drive</a>
+        <a class="wordmark" href="#"><img src="assets/icon.svg" alt="" width="36" height="36" />Just Drive</a>
         <a class="button small" href="#waitlist">Join the waitlist</a>
       </header>
 
