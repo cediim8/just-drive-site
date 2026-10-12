@@ -108,25 +108,115 @@
         margin: 16px 0 0;
         font-weight: 700;
       }
-      .phone {
+      .device {
         justify-self: center;
-        width: min(100%, 360px);
-        padding: 12px;
-        border-radius: 36px;
-        background: #13201c;
-        box-shadow: 0 20px 50px rgba(19, 32, 28, 0.25);
+        margin: 0;
+        width: min(100%, 330px);
       }
-      .phone img {
+      /* A modern iPhone, drawn: titanium edge, black bezel, side buttons, Dynamic Island. */
+      .iphone {
+        position: relative;
+        padding: 11px;
+        border-radius: 58px;
+        background: #0b0c0c;
+        box-shadow:
+          0 0 0 2px #8d918f,
+          0 0 0 4px #c9ccca,
+          0 0 0 5px #6f7371,
+          0 30px 60px -10px rgba(19, 32, 28, 0.45);
+      }
+      .iphone::before,
+      .iphone::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        border-radius: 2px;
+        background: #9b9f9d;
+      }
+      /* Action button and volume rocker on the left, side button on the right. */
+      .iphone::before {
+        left: -8px;
+        top: 120px;
+        height: 64px;
+        box-shadow:
+          0 -44px 0 -10px #9b9f9d,
+          0 78px 0 0 #9b9f9d;
+      }
+      .iphone::after {
+        right: -8px;
+        top: 160px;
+        height: 96px;
+      }
+      .screen {
+        position: relative;
+        overflow: hidden;
+        border-radius: 47px;
+        background: #f3f5f4;
+        aspect-ratio: 393 / 852;
+      }
+      .status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 6.2%;
+        padding: 0 9% 0 11%;
+        font:
+          600 15px/1 -apple-system,
+          'SF Pro Text',
+          system-ui,
+          sans-serif;
+        color: #13201c;
+      }
+      .status svg {
+        display: block;
+      }
+      .status .icons {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .island {
+        position: absolute;
+        top: 1.3%;
+        left: 50%;
+        width: 31%;
+        height: 4.2%;
+        transform: translateX(-50%);
+        border-radius: 20px;
+        background: #000;
+      }
+      /* The list fades out at the bottom, under the home indicator. */
+      .screen::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 9%;
+        background: linear-gradient(rgba(243, 245, 244, 0), #f3f5f4 70%);
+      }
+      /* The home indicator, over the app as on a real iPhone. */
+      .screen::after {
+        content: '';
+        position: absolute;
+        bottom: 1.1%;
+        left: 50%;
+        width: 36%;
+        height: 5px;
+        transform: translateX(-50%);
+        border-radius: 3px;
+        background: #13201c;
+      }
+      .screen img {
         display: block;
         width: 100%;
         height: auto;
-        border-radius: 26px;
       }
-      .phone figcaption {
-        color: #c9d3cf;
+      .device figcaption {
         font-size: 14px;
+        color: var(--muted);
         text-align: center;
-        padding: 10px 6px 2px;
+        padding-top: 18px;
       }
       section {
         padding: 48px 0;
@@ -260,13 +350,53 @@
             <a class="button" href="#waitlist">Join the waitlist</a>
             <p class="price-line">Free to log. A$39 once, when it's finished. No subscription.</p>
           </div>
-          <figure class="phone">
-            <img
-              src="assets/home-demo.png"
-              width="780"
-              height="1150"
-              alt="Just Drive's home screen: week 3 of 12, 501 km logged, 66% work use, a trip being recorded live at 3.0 km from Home, and 2 trips to sort."
-            />
+          <figure class="device">
+            <div class="iphone">
+              <div class="screen">
+                <div class="status" aria-hidden="true">
+                  <span>9:41</span>
+                  <span class="icons">
+                    <svg width="18" height="12" viewBox="0 0 18 12">
+                      <rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor" />
+                      <rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor" />
+                      <rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor" />
+                      <rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor" />
+                    </svg>
+                    <svg width="16" height="12" viewBox="0 0 16 12">
+                      <path
+                        d="M8 2.2c2.4 0 4.6.9 6.3 2.4l1.2-1.3C13.4 1.4 10.8.4 8 .4S2.6 1.4.5 3.3l1.2 1.3C3.4 3.1 5.6 2.2 8 2.2Zm0 3.6c1.4 0 2.7.5 3.7 1.4l1.2-1.3C11.6 4.7 9.9 4 8 4s-3.6.7-4.9 1.9l1.2 1.3C5.3 6.3 6.6 5.8 8 5.8Zm0 3.6c.5 0 1 .2 1.3.5L8 11.4 6.7 9.9c.3-.3.8-.5 1.3-.5Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    <svg width="27" height="13" viewBox="0 0 27 13">
+                      <rect
+                        x="0.5"
+                        y="0.5"
+                        width="23"
+                        height="12"
+                        rx="3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        opacity="0.4"
+                      />
+                      <rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor" />
+                      <path
+                        d="M25 4.5v4c.8-.3 1.5-1.1 1.5-2s-.7-1.7-1.5-2Z"
+                        fill="currentColor"
+                        opacity="0.4"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div class="island" aria-hidden="true"></div>
+                <img
+                  src="assets/home-demo.png"
+                  width="1179"
+                  height="2397"
+                  alt="Just Drive's home screen: week 3 of 12, 501 km logged, 66% work use, a trip being recorded live at 3.0 km from Home, 2 trips to sort, and yesterday's trips."
+                />
+              </div>
+            </div>
             <figcaption>Recording a trip, live. Sample data.</figcaption>
           </figure>
         </section>
@@ -409,8 +539,8 @@
           <details>
             <summary>When can I get it?</summary>
             <p>
-              Just Drive is coming to iPhone and Android in 2027, in time for the new financial
-              year. Join the waitlist to hear when it's ready, or to help test it before launch.
+              Just Drive is coming soon to iPhone and Android. Join the waitlist to hear when it's
+              ready, or to help test it before launch.
             </p>
           </details>
         </section>
