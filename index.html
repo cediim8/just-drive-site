@@ -269,6 +269,56 @@
         font: 800 17px/1 var(--display);
         margin-bottom: 10px;
       }
+      .watch {
+        display: grid;
+        gap: 18px;
+        justify-items: center;
+        text-align: center;
+      }
+      .demo-video {
+        display: block;
+        width: min(100%, 320px);
+        height: auto;
+        border-radius: 24px;
+        background: var(--brand);
+        box-shadow: 0 24px 48px -16px rgba(19, 32, 28, 0.4);
+      }
+      .watch p {
+        margin: 0;
+        max-width: 32em;
+        color: var(--muted);
+      }
+      /* Screenshots in a row that scrolls sideways, one snapping into place at a time. */
+      .screens {
+        display: flex;
+        gap: 16px;
+        margin: 0 -4px;
+        padding: 4px 4px 18px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        list-style: none;
+      }
+      .screens li {
+        flex: 0 0 min(64%, 240px);
+        scroll-snap-align: start;
+      }
+      .screens figure {
+        margin: 0;
+      }
+      .screens img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 22px;
+        box-shadow:
+          0 0 0 1px var(--line),
+          0 14px 28px -14px rgba(19, 32, 28, 0.35);
+      }
+      .screens figcaption {
+        padding-top: 10px;
+        font-size: 15px;
+        color: var(--muted);
+      }
       .price {
         background: var(--brand);
         color: #fff;
@@ -461,6 +511,108 @@
           </ol>
         </section>
 
+        <section aria-labelledby="watch">
+          <h2 id="watch">See a logbook come together</h2>
+          <div class="watch">
+            <video
+              class="demo-video"
+              src="assets/just-drive-demo.mp4"
+              poster="assets/just-drive-demo-poster.webp"
+              width="720"
+              height="1280"
+              muted
+              loop
+              playsinline
+              controls
+              preload="metadata"
+              aria-label="Just Drive in 23 seconds: a trip logs itself while driving, it's sorted as work with a swipe, the kilometres are checked against the odometer, and the finished logbook is sent as a PDF."
+            ></video>
+            <p>
+              A drive logs itself, one swipe sorts it, the kilometres are checked against your
+              odometer, and after 12 weeks your accountant gets a PDF. Sample data.
+            </p>
+          </div>
+        </section>
+
+        <section aria-labelledby="inside">
+          <h2 id="inside">Inside the app</h2>
+          <ul class="screens">
+            <li>
+              <figure>
+                <img
+                  src="assets/screens/home.webp"
+                  width="540"
+                  height="1172"
+                  loading="lazy"
+                  alt="The home screen: tracking is on, week 3 of 12, 499 km logged, 61% work use, 2 trips to sort and yesterday's trips."
+                />
+                <figcaption>Home: tracking is on, and the week at a glance</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img
+                  src="assets/screens/sort.webp"
+                  width="540"
+                  height="1172"
+                  loading="lazy"
+                  alt="Sorting a trip: a 9.8 km drive from Station Rd, Indooroopilly to the Depot on a map, with purpose buttons and Private and Work."
+                />
+                <figcaption>Sort trips: one swipe, work or private</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img
+                  src="assets/screens/trip.webp"
+                  width="540"
+                  height="1172"
+                  loading="lazy"
+                  alt="A trip's details: the route on a map, marked Work with the purpose Pick up supplies, the destination, 2.7 km, and odometer readings 84,691 to 84,694."
+                />
+                <figcaption>Every trip: the route, its purpose and odometer readings</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img
+                  src="assets/screens/all-trips.webp"
+                  width="540"
+                  height="1172"
+                  loading="lazy"
+                  alt="The list of all trips by day, each with its time, kilometres, from and to, and whether it's work, private or still to sort."
+                />
+                <figcaption>All your trips, day by day</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img
+                  src="assets/screens/odometer.webp"
+                  width="540"
+                  height="1172"
+                  loading="lazy"
+                  alt="An odometer check reading 84,710 km: all your kilometres are accounted for, 158 km logged and the odometer moved 145 km."
+                />
+                <figcaption>A weekly odometer check catches missed trips</figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img
+                  src="assets/screens/finish.webp"
+                  width="540"
+                  height="1172"
+                  loading="lazy"
+                  alt="The finished logbook: 60% work use, 303 of 504 km for work, odometer 84,213 to 84,710, and every check ticked, with Send to my accountant and Save PDF."
+                />
+                <figcaption>Checked, then sent to your accountant</figcaption>
+              </figure>
+            </li>
+          </ul>
+          <p class="fine">Sample data. Scroll sideways for more.</p>
+        </section>
+
         <section aria-labelledby="why">
           <h2 id="why">Made for the things that go wrong with logbook apps</h2>
           <ul class="reasons">
@@ -648,5 +800,23 @@
         </p>
       </footer>
     </div>
+    <script>
+      // The demo video plays (muted, looping) only while it's on screen, and not at all for people
+      // who've asked for less motion; its controls always work.
+      (function () {
+        var video = document.querySelector('.demo-video');
+        if (!video || !('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) video.play().catch(function () {});
+              else video.pause();
+            });
+          },
+          { threshold: 0.5 },
+        ).observe(video);
+      })();
+    </script>
   </body>
 </html>
